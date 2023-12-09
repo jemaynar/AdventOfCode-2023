@@ -27,11 +27,29 @@
         Assert.True(result.IsSome)
         
     [<Fact>]
-    let ``getDigits when "1" returns some seq of 1`` () =
+    let ``getDigits when "1" returns some seq equivalent of [ 1uy ]`` () =
         let result = Day1.getDigits <| "1"
+
+        Assert.Equivalent([| 1uy |] |> Seq.ofArray, result.Value)
         
-        Assert.Equal<IEnumerable<byte>>([| 1uy |] |> Seq.ofArray, result.Value)
+    [<Fact>]
+    let ``getDigits when "12" returns some seq equivalent of [ 1uy; 2uy ]`` () =
+        let result = Day1.getDigits <| "12"
+
+        Assert.Equivalent([| 1uy; 2uy |] |> Seq.ofArray, result.Value)
+
+    [<Fact>]
+    let ``getDigits when "123" returns some seq equivalent of [ 1uy; 2uy; 3uy ]`` () =
+        let result = Day1.getDigits <| "123"
+
+        Assert.Equivalent([| 1uy; 2uy; 3uy |] |> Seq.ofArray, result.Value)
         
+    [<Fact>]
+    let ``getDigits when "_1+2b3_" returns some seq equivalent of [ 1uy; 2uy; 3uy ]`` () =
+        let result = Day1.getDigits <| "123"
+
+        Assert.Equivalent([| 1uy; 2uy; 3uy |] |> Seq.ofArray, result.Value)
+            
     [<Fact>]
     let ``firstAndLastDigit when none return none`` () =
         let result = Day1.firstAndLastDigit <| None
