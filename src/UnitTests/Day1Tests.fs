@@ -33,7 +33,7 @@
         Assert.True(result.IsNone)
         
     [<Fact>]
-    let ``Day1.firstAndLastDigit when some 1 returns (1, 1)1`` () =
+    let ``Day1.firstAndLastDigit when some 1 returns (1, 1)`` () =
         let result = Day1.firstAndLastDigit <| Some([| 1uy |])
         
         Assert.Equal<byte * byte>(result.Value, (1uy, 1uy))
