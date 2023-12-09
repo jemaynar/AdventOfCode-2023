@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <RootNamespace>AOC_2023</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="Data\input1.txt" />
+        <Compile Include="Common.fs" />
+        <Compile Include="Day1.fs" />
+        <Compile Include="Program.fs" />
+    </ItemGroup>
+
+</Project>

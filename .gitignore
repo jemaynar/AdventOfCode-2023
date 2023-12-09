@@ -1,0 +1,5 @@
+.idea/
+/src/AOC-2023/obj/
+/src/AOC-2023/bin/
+/src/UnitTests/obj/
+/src/UnitTests/bin/
