@@ -1,11 +1,12 @@
 ﻿module Day1
 
     open System
+    open Microsoft.FSharp.Core
 
     let getDigits (input: string) =
         let result =
             input |> Seq.filter(Char.IsDigit)
-            |> Seq.map(byte)
+            |> Seq.map(fun x -> Byte.Parse(x.ToString()))
         match result with
         | s when Seq.isEmpty s -> None
         | s -> Some(s)

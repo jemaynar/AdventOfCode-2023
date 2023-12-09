@@ -27,6 +27,12 @@
         Assert.True(result.IsSome)
         
     [<Fact>]
+    let ``getDigits when "1" returns some seq of 1`` () =
+        let result = Day1.getDigits <| "1"
+        
+        Assert.Equal<IEnumerable<byte>>([| 1uy |] |> Seq.ofArray, result.Value)
+        
+    [<Fact>]
     let ``firstAndLastDigit when none return none`` () =
         let result = Day1.firstAndLastDigit <| None
         
