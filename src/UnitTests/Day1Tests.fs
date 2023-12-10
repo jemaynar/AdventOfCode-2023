@@ -118,6 +118,12 @@
 
             Assert.True(result.IsNone)
 
+        [<Fact>]
+        let ``getNumericStrings when "one" returns (0, 1uy)`` () =
+            let result = "one" |> Day1.Part2.getNumericStrings
+
+            Assert.Equivalent([ (0, Some(1uy)) ], result.Value )
+
     [<Fact>]
     let ``aggregateFirstAndLastDigit when none return none`` () =
         let result = Day1.aggregateFirstAndLastDigit <| None
