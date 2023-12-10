@@ -96,8 +96,8 @@
 
     module Part2 =
         type resultRow = { Position: int; Value: byte option }
-        type ParseNumericStringWithPositionTestCase = { Input: string; Expected: resultRow seq option }
-        let testCases =
+        type ParserTestCase = { Input: string; Expected: resultRow seq option }
+        let parseNumericWithStringPositionTestCases =
             seq {
                 yield [| { Input = ""; Expected = None } |];
                 yield [| { Input = " "; Expected = None } |];
@@ -121,12 +121,44 @@
                 yield [| { Input = "aseven"; Expected = Some([| { Position = 1; Value = Some(7uy) } |] |> Array.toSeq) } |];
                 yield [| { Input = "aeight"; Expected = Some([| { Position = 1; Value = Some(8uy) } |] |> Array.toSeq) } |];
                 yield [| { Input = "anine"; Expected = Some([| { Position = 1; Value = Some(9uy) } |] |> Array.toSeq) } |];
-                
             }
+
         [<Theory>]
-        [<MemberData(nameof(testCases))>]
-        let ``parseNumericStringsWithPosition`` (testCase: ParseNumericStringWithPositionTestCase) =
+        [<MemberData(nameof(parseNumericWithStringPositionTestCases))>]
+        let ``parseNumericStringsWithPosition`` (testCase: ParserTestCase) =
             let result = testCase.Input |> Day1.Part2.parseNumericStringsWithPosition
+
+            let mappedExpected:(int * byte option) seq option =
+                testCase.Expected
+                    |> Option.map(fun x -> x |> Seq.map(fun y -> (y.Position, y.Value)))
+            
+            if testCase.Expected.IsNone then
+                Assert.True(result.IsNone)
+            else
+                Assert.Equivalent(mappedExpected, result)
+
+        let parseDigitsWithStringPositionTestCases =
+            seq {
+                yield [| { Input = ""; Expected = None } |];
+                yield [| { Input = " "; Expected = None } |];
+                yield [| { Input = "non-digit"; Expected = None } |];
+                yield [| { Input = "one"; Expected = None } |];
+                yield [| { Input = "1"; Expected = Some([| { Position = 0; Value = Some(1uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "2"; Expected = Some([| { Position = 0; Value = Some(2uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "3"; Expected = Some([| { Position = 0; Value = Some(3uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "4"; Expected = Some([| { Position = 0; Value = Some(4uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "5"; Expected = Some([| { Position = 0; Value = Some(5uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "6"; Expected = Some([| { Position = 0; Value = Some(6uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "7"; Expected = Some([| { Position = 0; Value = Some(7uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "8"; Expected = Some([| { Position = 0; Value = Some(8uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "9"; Expected = Some([| { Position = 0; Value = Some(9uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "0"; Expected = Some([| { Position = 0; Value = Some(0uy) } |] |> Array.toSeq) } |];
+            }
+
+        [<Theory>]
+        [<MemberData(nameof(parseDigitsWithStringPositionTestCases))>]
+        let ``parseDigitsWithPosition`` (testCase: ParserTestCase) =
+            let result = testCase.Input |> Day1.Part2.parseDigitsWithPosition
 
             let mappedExpected:(int * byte option) seq option =
                 testCase.Expected
