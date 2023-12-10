@@ -53,7 +53,7 @@
                      | "nine" -> Option.Some(9uy)))
                 |> seqEmptyToNone
 
-        let getDigits (input: string) =
+        let parseDigitsWithPosition (input: string) =
             Regex.Matches(input, "[\d]", RegexOptions.Compiled)
                 |> Seq.map(fun m -> (m.Index, Option.Some(Byte.Parse(m.Value))))
                 |> seqEmptyToNone

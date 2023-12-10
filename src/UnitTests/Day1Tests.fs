@@ -1,4 +1,5 @@
 ﻿module UnitTests.Day1Tests
+    open System
     open System.Collections.Generic
     open Xunit
 
@@ -94,58 +95,47 @@
             Assert.Equal<int>(result, 142)
 
     module Part2 =
-        [<Fact>]
-        let ``parseNumericStringsWithPosition when empty returns none`` () =
-            let result = "" |> Day1.Part2.parseNumericStringsWithPosition
-
-            Assert.True(result.IsNone)
-
-        [<Fact>]
-        let ``parseNumericStringsWithPosition when whitespace returns none`` () =
-            let result = " " |> Day1.Part2.parseNumericStringsWithPosition
-
-            Assert.True(result.IsNone)
-
-        [<Fact>]
-        let ``parseNumericStringsWithPosition when non-digit returns none`` () =
-            let result = "non-digit" |> Day1.Part2.parseNumericStringsWithPosition
-
-            Assert.True(result.IsNone)
-
-        [<Fact>]
-        let ``parseNumericStringsWithPosition when digit returns none`` () =
-            let result = "1" |> Day1.Part2.parseNumericStringsWithPosition
-
-            Assert.True(result.IsNone)
-
-        let testCases : obj[] list =
-            [
-                [| "one"; [(0, Some(1uy))] |];
-                [| "two"; [(0, Some(2uy))] |];
-                [| "three"; [(0, Some(3uy))] |];
-                [| "four"; [(0, Some(4uy))] |];
-                [| "five"; [(0, Some(5uy))] |];
-                [| "six"; [(0, Some(6uy))] |];
-                [| "seven"; [(0, Some(7uy))] |];
-                [| "eight"; [(0, Some(8uy))] |]
-                [| "nine"; [(0, Some(9uy))] |];
-                [| "aone"; [(1, Some(1uy))] |];
-                [| "atwo"; [(1, Some(2uy))] |];
-                [| "athree"; [(1, Some(3uy))] |];
-                [| "afour"; [(1, Some(4uy))] |];
-                [| "afive"; [(1, Some(5uy))] |];
-                [| "asix"; [(1, Some(6uy))] |];
-                [| "aseven"; [(1, Some(7uy))] |];
-                [| "aeight"; [(1, Some(8uy))] |]
-                [| "anine"; [(1, Some(9uy))] |]
-            ]
-        
+        type resultRow = { Position: int; Value: byte option }
+        type ParseNumericStringWithPositionTestCase = { Input: string; Expected: resultRow seq option }
+        let testCases =
+            seq {
+                yield [| { Input = ""; Expected = None } |];
+                yield [| { Input = " "; Expected = None } |];
+                yield [| { Input = "non-digit"; Expected = None } |];
+                yield [| { Input = "1"; Expected = None } |];
+                yield [| { Input = "one"; Expected = Some([| { Position = 0; Value = Some(1uy) } |] |> Array.toSeq ) } |];
+                yield [| { Input = "two"; Expected = Some([| { Position = 0; Value = Some(2uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "three"; Expected = Some([| { Position = 0; Value = Some(3uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "four"; Expected = Some([| { Position = 0; Value = Some(4uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "five"; Expected = Some([| { Position = 0; Value = Some(5uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "six"; Expected = Some([| { Position = 0; Value = Some(6uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "seven"; Expected = Some([| { Position = 0; Value = Some(7uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "eight"; Expected = Some([| { Position = 0; Value = Some(8uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "nine"; Expected = Some([| { Position = 0; Value = Some(9uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "aone"; Expected = Some([| { Position = 1; Value = Some(1uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "atwo"; Expected = Some([| { Position = 1; Value = Some(2uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "athree"; Expected = Some([| { Position = 1; Value = Some(3uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "afour"; Expected = Some([| { Position = 1; Value = Some(4uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "afive"; Expected = Some([| { Position = 1; Value = Some(5uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "asix"; Expected = Some([| { Position = 1; Value = Some(6uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "aseven"; Expected = Some([| { Position = 1; Value = Some(7uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "aeight"; Expected = Some([| { Position = 1; Value = Some(8uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "anine"; Expected = Some([| { Position = 1; Value = Some(9uy) } |] |> Array.toSeq) } |];
+                
+            }
         [<Theory>]
         [<MemberData(nameof(testCases))>]
-        let ``parseNumericStringsWithPosition returns proper index and value`` (input: string) (expected: (int * byte option) seq) =
-            let result = input |> Day1.Part2.parseNumericStringsWithPosition
+        let ``parseNumericStringsWithPosition`` (testCase: ParseNumericStringWithPositionTestCase) =
+            let result = testCase.Input |> Day1.Part2.parseNumericStringsWithPosition
 
-            Assert.Equivalent(expected, result.Value)
+            let mappedExpected:(int * byte option) seq option =
+                testCase.Expected
+                    |> Option.map(fun x -> x |> Seq.map(fun y -> (y.Position, y.Value)))
+            
+            if testCase.Expected.IsNone then
+                Assert.True(result.IsNone)
+            else
+                Assert.Equivalent(mappedExpected, result)
 
     [<Fact>]
     let ``aggregateFirstAndLastDigit when none return none`` () =
