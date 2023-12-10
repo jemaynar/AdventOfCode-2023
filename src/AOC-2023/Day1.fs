@@ -9,6 +9,11 @@
         | s when Seq.isEmpty s -> None
         | s -> Some(s)
 
+    let noneToEmpty (input: Option<seq<'anyType>>) =
+        match input with
+        | None -> Seq.empty
+        | Some(s) -> s
+
     let aggregateFirstAndLastDigit (digitSequence: byte seq option) =
         digitSequence
             |> Option.map(Seq.toArray)
@@ -57,6 +62,12 @@
             Regex.Matches(input, "[1-9]", RegexOptions.Compiled)
                 |> Seq.map(fun m -> (m.Index, Option.Some(Byte.Parse(m.Value))))
                 |> seqEmptyToNone
+
+        let getDigits (input: string): byte seq option =
+            let digits = input |> parseDigitsWithPosition |> noneToEmpty |> Seq.filter(fun x -> (snd x).IsSome)
+            let numbers = input |> parseNumericStringsWithPosition |> noneToEmpty |> Seq.filter(fun x -> (snd x).IsSome)
+            let combined = Seq.append digits numbers
+            combined |> Seq.sortBy(fst) |> Seq.map(snd) |> Seq.choose id |> seqEmptyToNone
 
     let Execute =
         let lines = Common.getData ".\Data\input1.txt"

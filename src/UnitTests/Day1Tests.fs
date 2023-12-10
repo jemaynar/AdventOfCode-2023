@@ -179,14 +179,54 @@
         let ``parseDigitsWithPosition`` (testCase: ParserTestCase) =
             let result = testCase.Input |> Day1.Part2.parseDigitsWithPosition
 
-            let mappedExpected:(int * byte option) seq option =
-                testCase.Expected
-                    |> Option.map(fun x -> x |> Seq.map(fun y -> (y.Position, y.Value)))
-            
             if testCase.Expected.IsNone then
                 Assert.True(result.IsNone)
             else
-                Assert.Equivalent(mappedExpected, result)
+                Assert.Equivalent(
+                    testCase.Expected
+                        |> Option.map(fun x -> x |> Seq.map(fun y -> (y.Position, y.Value))), result)
+
+        type GetDigitsTestCase = { Input: string; ExpectedSeq: byte seq option }
+        let getDigitsTestCases =
+            seq {
+                yield [| { Input = ""; ExpectedSeq = None } |];
+                yield [| { Input = " "; ExpectedSeq = None } |]
+                yield [| { Input = "0"; ExpectedSeq = None } |]
+                yield [| { Input = "a"; ExpectedSeq = None } |]
+                yield [| { Input = " stuff 0 stuff"; ExpectedSeq = None } |];
+                yield [| { Input = "1"; ExpectedSeq = Some(seq { 1uy }) } |];
+                yield [| { Input = "2"; ExpectedSeq = Some(seq { 2uy }) } |];
+                yield [| { Input = "3"; ExpectedSeq = Some(seq { 3uy }) } |];
+                yield [| { Input = "4"; ExpectedSeq = Some(seq { 4uy }) } |];
+                yield [| { Input = "5"; ExpectedSeq = Some(seq { 5uy }) } |];
+                yield [| { Input = "6"; ExpectedSeq = Some(seq { 6uy }) } |];
+                yield [| { Input = "7"; ExpectedSeq = Some(seq { 7uy }) } |];
+                yield [| { Input = "8"; ExpectedSeq = Some(seq { 8uy }) } |];
+                yield [| { Input = "9"; ExpectedSeq = Some(seq { 9uy }) } |];
+                yield [| { Input = "one"; ExpectedSeq = Some(seq { 1uy }) } |];
+                yield [| { Input = "two"; ExpectedSeq = Some(seq { 2uy }) } |];
+                yield [| { Input = "three"; ExpectedSeq = Some(seq { 3uy }) } |];
+                yield [| { Input = "four"; ExpectedSeq = Some(seq { 4uy }) } |];
+                yield [| { Input = "five"; ExpectedSeq = Some(seq { 5uy }) } |];
+                yield [| { Input = "six"; ExpectedSeq = Some(seq { 6uy }) } |];
+                yield [| { Input = "seven"; ExpectedSeq = Some(seq { 7uy }) } |];
+                yield [| { Input = "eight"; ExpectedSeq = Some(seq { 8uy }) } |];
+                yield [| { Input = "nine"; ExpectedSeq = Some(seq { 9uy }) } |];
+                yield [| { Input = "12345"; ExpectedSeq = Some(seq { 1uy; 2uy; 3uy; 4uy; 5uy; }) } |];
+                yield [| { Input = "1two3"; ExpectedSeq = Some(seq { 1uy; 2uy; 3uy; }) } |];
+                yield [| { Input = "1aatwobb3"; ExpectedSeq = Some(seq { 1uy; 2uy; 3uy; }) } |];
+                yield [| { Input = " three blah 3 blah one blah "; ExpectedSeq = Some(seq { 3uy; 3uy; 1uy; }) } |];
+            }
+
+        [<Theory>]
+        [<MemberData(nameof(getDigitsTestCases))>]
+        let ``getDigits`` (testCase: GetDigitsTestCase) =
+            let result = testCase.Input |> Day1.Part2.getDigits
+            
+            if testCase.ExpectedSeq.IsNone then
+                Assert.True(result.IsNone)
+            else
+                Assert.Equivalent(testCase.ExpectedSeq.Value, result.Value)
 
     [<Fact>]
     let ``aggregateFirstAndLastDigit when none return none`` () =
