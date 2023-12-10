@@ -1,5 +1,4 @@
 ﻿module UnitTests.Day1Tests
-    open System
     open System.Collections.Generic
     open Xunit
 
