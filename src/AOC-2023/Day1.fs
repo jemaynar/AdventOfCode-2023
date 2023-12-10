@@ -72,11 +72,10 @@
         let sumData(rows: seq<string>) =
             sumData <| rows <| getDigits
 
-    let Execute =
+    let Execute (showData: bool) =
         let lines = Common.getData ".\Data\input1.txt"
 
-        // Show Data
-        // lines |> Seq.iter(printfn "%s")
+        if showData then lines |> Seq.iter(printfn "%s")
 
         let result = Part1.sumData <| lines
 
