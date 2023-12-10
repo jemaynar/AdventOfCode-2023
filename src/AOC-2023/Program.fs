@@ -1,4 +1,4 @@
 ﻿[<EntryPoint>]
-let main argv =
+let main _ =
     Day1.Execute
     0
