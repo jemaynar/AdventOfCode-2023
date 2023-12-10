@@ -95,26 +95,26 @@
 
     module Part2 =
         [<Fact>]
-        let ``getNumericStrings when empty returns none`` () =
-            let result = "" |> Day1.Part2.getNumericStrings
+        let ``parseNumericStringsWithPosition when empty returns none`` () =
+            let result = "" |> Day1.Part2.parseNumericStringsWithPosition
 
             Assert.True(result.IsNone)
 
         [<Fact>]
-        let ``getNumericStrings when whitespace returns none`` () =
-            let result = " " |> Day1.Part2.getNumericStrings
+        let ``parseNumericStringsWithPosition when whitespace returns none`` () =
+            let result = " " |> Day1.Part2.parseNumericStringsWithPosition
 
             Assert.True(result.IsNone)
 
         [<Fact>]
-        let ``getNumericStrings when non-digit returns none`` () =
-            let result = "non-digit" |> Day1.Part2.getNumericStrings
+        let ``parseNumericStringsWithPosition when non-digit returns none`` () =
+            let result = "non-digit" |> Day1.Part2.parseNumericStringsWithPosition
 
             Assert.True(result.IsNone)
 
         [<Fact>]
-        let ``getNumericStrings when digit returns none`` () =
-            let result = "1" |> Day1.Part2.getNumericStrings
+        let ``parseNumericStringsWithPosition when digit returns none`` () =
+            let result = "1" |> Day1.Part2.parseNumericStringsWithPosition
 
             Assert.True(result.IsNone)
 
@@ -142,8 +142,8 @@
         
         [<Theory>]
         [<MemberData(nameof(testCases))>]
-        let ``getNumericStrings returns proper index and value`` (input: string) (expected: (int * byte option) seq) =
-            let result = input |> Day1.Part2.getNumericStrings
+        let ``parseNumericStringsWithPosition returns proper index and value`` (input: string) (expected: (int * byte option) seq) =
+            let result = input |> Day1.Part2.parseNumericStringsWithPosition
 
             Assert.Equivalent(expected, result.Value)
 

@@ -37,7 +37,7 @@
             sumData <| rows <| getDigits
 
     module Part2 =
-        let getNumericStrings (input: string) =
+        let parseNumericStringsWithPosition (input: string) =
             Regex.Matches(input, "one|two|three|four|five|six|seven|eight|nine", RegexOptions.Compiled)
                 |> Seq.map(fun m ->
                     (m.Index,
@@ -54,7 +54,9 @@
                 |> seqEmptyToNone
 
         let getDigits (input: string) =
-            [| 0uy |]
+            Regex.Matches(input, "[\d]", RegexOptions.Compiled)
+                |> Seq.map(fun m -> (m.Index, Option.Some(Byte.Parse(m.Value))))
+                |> seqEmptyToNone
 
     let Execute =
         let lines = Common.getData ".\Data\input1.txt"
