@@ -69,6 +69,9 @@
             let combined = Seq.append digits numbers
             combined |> Seq.sortBy(fst) |> Seq.map(snd) |> Seq.choose id |> seqEmptyToNone
 
+        let sumData(rows: seq<string>) =
+            sumData <| rows <| getDigits
+
     let Execute =
         let lines = Common.getData ".\Data\input1.txt"
 
@@ -78,3 +81,7 @@
         let result = Part1.sumData <| lines
 
         printfn "Day 1 / Part 1 Result: \n\n%A\n" <| result
+        
+        let result = Part2.sumData <| lines
+        
+        printfn "Day 1 / Part 2 Result: \n\n%A\n" <| result

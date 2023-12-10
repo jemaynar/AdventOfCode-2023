@@ -228,6 +228,54 @@
             else
                 Assert.Equivalent(testCase.ExpectedSeq.Value, result.Value)
 
+        [<Fact>]
+        let ``sumData when ["1"] then 11`` () =
+            let result = Day1.Part2.sumData <| ["1"]
+
+            Assert.Equal<int>(result, 11)
+
+        [<Fact>]
+        let ``sumData when ["11"] then 11`` () =
+            let result = Day1.Part2.sumData <| ["11"]
+
+            Assert.Equal<int>(result, 11)
+
+        [<Fact>]
+        let ``sumData when ["1a1"] then 11`` () =
+            let result = Day1.Part2.sumData <| ["1a1"]
+
+            Assert.Equal<int>(result, 11)
+
+        [<Fact>]
+        let ``sumData when ["1a1"; "no digits"] then 2`` () =
+            let result = Day1.Part2.sumData <| ["11"; "no digits"]
+
+            Assert.Equal<int>(result, 11)
+
+        [<Fact>]
+        let ``sumData when ["1a1"; "1"] then 22`` () =
+            let result = Day1.Part2.sumData <| ["11"; "1"]
+
+            Assert.Equal<int>(result, 22)
+
+        [<Fact>]
+        let ``sumData when ["1a1"; "no digits"; "aa2aa"] then 33`` () =
+            let result = Day1.Part2.sumData <| ["11"; "no digits"; "aa2aa"]
+
+            Assert.Equal<int>(result, 33)
+
+        [<Fact>]
+        let ``sumData when ["1abc2"; "pqr3stu8vwx"; "a1b2c3d4e5f"; "treb7uchet"] then 142`` () =
+            let result = Day1.Part2.sumData <| ["1abc2"; "pqr3stu8vwx"; "a1b2c3d4e5f"; "treb7uchet"]
+
+            Assert.Equal<int>(result, 142)
+
+        [<Fact>]
+        let ``somData when ["two1nine"; "eightwothree"; "abcone2threexyz"; "xtwone3four"; "4nineeightseven2"; "zoneight234"; "7pqrstsixteen"] then 281`` () =
+            let result = Day1.Part2.sumData <| ["two1nine"; "eightwothree"; "abcone2threexyz"; "xtwone3four"; "4nineeightseven2"; "zoneight234"; "7pqrstsixteen" ]
+
+            Assert.Equal<int>(result, 281)
+
     [<Fact>]
     let ``aggregateFirstAndLastDigit when none return none`` () =
         let result = Day1.aggregateFirstAndLastDigit <| None
