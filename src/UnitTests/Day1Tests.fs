@@ -118,11 +118,34 @@
 
             Assert.True(result.IsNone)
 
-        [<Fact>]
-        let ``getNumericStrings when "one" returns (0, 1uy)`` () =
-            let result = "one" |> Day1.Part2.getNumericStrings
+        let testCases : obj[] list =
+            [
+                [| "one"; [(0, Some(1uy))] |];
+                [| "two"; [(0, Some(2uy))] |];
+                [| "three"; [(0, Some(3uy))] |];
+                [| "four"; [(0, Some(4uy))] |];
+                [| "five"; [(0, Some(5uy))] |];
+                [| "six"; [(0, Some(6uy))] |];
+                [| "seven"; [(0, Some(7uy))] |];
+                [| "eight"; [(0, Some(8uy))] |]
+                [| "nine"; [(0, Some(9uy))] |];
+                [| "aone"; [(1, Some(1uy))] |];
+                [| "atwo"; [(1, Some(2uy))] |];
+                [| "athree"; [(1, Some(3uy))] |];
+                [| "afour"; [(1, Some(4uy))] |];
+                [| "afive"; [(1, Some(5uy))] |];
+                [| "asix"; [(1, Some(6uy))] |];
+                [| "aseven"; [(1, Some(7uy))] |];
+                [| "aeight"; [(1, Some(8uy))] |]
+                [| "anine"; [(1, Some(9uy))] |]
+            ]
+        
+        [<Theory>]
+        [<MemberData(nameof(testCases))>]
+        let ``getNumericStrings returns proper index and value`` (input: string) (expected: (int * byte option) seq) =
+            let result = input |> Day1.Part2.getNumericStrings
 
-            Assert.Equivalent([ (0, Some(1uy)) ], result.Value )
+            Assert.Equivalent(expected, result.Value)
 
     [<Fact>]
     let ``aggregateFirstAndLastDigit when none return none`` () =
