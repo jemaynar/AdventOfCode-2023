@@ -2,53 +2,97 @@
     open System.Collections.Generic
     open Xunit
     
-    [<Fact>]
-    let ``Part1.getDigits when empty returns none`` () =
-        let result = Day1.Part1.getDigits <| ""
+    module Part1 = 
         
-        Assert.Equal<Option<IEnumerable<byte>>>(None, result)
-        
-    [<Fact>]
-    let ``Part1.getDigits when whitespace returns none`` () =
-        let result = Day1.Part1.getDigits <| " "
-        
-        Assert.Equal<Option<IEnumerable<byte>>>(None, result)
-        
-    [<Fact>]
-    let ``Part1.getDigits when non-digit returns none`` () =
-        let result = Day1.Part1.getDigits <| "a"
-        
-        Assert.Equal<Option<IEnumerable<byte>>>(None, result)
-        
-    [<Fact>]
-    let ``Part1.getDigits when digit returns some`` () =
-        let result = Day1.Part1.getDigits <| "1"
-        
-        Assert.True(result.IsSome)
-        
-    [<Fact>]
-    let ``Part1.getDigits when "1" returns some seq equivalent of [ 1uy ]`` () =
-        let result = Day1.Part1.getDigits <| "1"
+        [<Fact>]
+        let ``Part1.getDigits when empty returns none`` () =
+            let result = Day1.Part1.getDigits <| ""
+            
+            Assert.Equal<Option<IEnumerable<byte>>>(None, result)
+            
+        [<Fact>]
+        let ``Part1.getDigits when whitespace returns none`` () =
+            let result = Day1.Part1.getDigits <| " "
+            
+            Assert.Equal<Option<IEnumerable<byte>>>(None, result)
+            
+        [<Fact>]
+        let ``Part1.getDigits when non-digit returns none`` () =
+            let result = Day1.Part1.getDigits <| "a"
+            
+            Assert.Equal<Option<IEnumerable<byte>>>(None, result)
+            
+        [<Fact>]
+        let ``Part1.getDigits when digit returns some`` () =
+            let result = Day1.Part1.getDigits <| "1"
+            
+            Assert.True(result.IsSome)
+            
+        [<Fact>]
+        let ``Part1.getDigits when "1" returns some seq equivalent of [ 1uy ]`` () =
+            let result = Day1.Part1.getDigits <| "1"
 
-        Assert.Equivalent([| 1uy |] |> Seq.ofArray, result.Value)
-        
-    [<Fact>]
-    let ``Part1.getDigits when "12" returns some seq equivalent of [ 1uy; 2uy ]`` () =
-        let result = Day1.Part1.getDigits <| "12"
+            Assert.Equivalent([| 1uy |] |> Seq.ofArray, result.Value)
+            
+        [<Fact>]
+        let ``Part1.getDigits when "12" returns some seq equivalent of [ 1uy; 2uy ]`` () =
+            let result = Day1.Part1.getDigits <| "12"
 
-        Assert.Equivalent([| 1uy; 2uy |] |> Seq.ofArray, result.Value)
+            Assert.Equivalent([| 1uy; 2uy |] |> Seq.ofArray, result.Value)
 
-    [<Fact>]
-    let ``Part1.getDigits when "123" returns some seq equivalent of [ 1uy; 2uy; 3uy ]`` () =
-        let result = Day1.Part1.getDigits <| "123"
+        [<Fact>]
+        let ``Part1.getDigits when "123" returns some seq equivalent of [ 1uy; 2uy; 3uy ]`` () =
+            let result = Day1.Part1.getDigits <| "123"
 
-        Assert.Equivalent([| 1uy; 2uy; 3uy |] |> Seq.ofArray, result.Value)
-        
-    [<Fact>]
-    let ``Part1.getDigits when "_1+2b3_" returns some seq equivalent of [ 1uy; 2uy; 3uy ]`` () =
-        let result = Day1.Part1.getDigits <| "123"
+            Assert.Equivalent([| 1uy; 2uy; 3uy |] |> Seq.ofArray, result.Value)
+            
+        [<Fact>]
+        let ``Part1.getDigits when "_1+2b3_" returns some seq equivalent of [ 1uy; 2uy; 3uy ]`` () =
+            let result = Day1.Part1.getDigits <| "123"
 
-        Assert.Equivalent([| 1uy; 2uy; 3uy |] |> Seq.ofArray, result.Value)
+            Assert.Equivalent([| 1uy; 2uy; 3uy |] |> Seq.ofArray, result.Value)
+            
+        [<Fact>]
+        let ``Part1.sumData when ["1"] then 11`` () =
+            let result = Day1.Part1.sumData <| ["1"]
+            
+            Assert.Equal<int>(result, 11)
+            
+        [<Fact>]
+        let ``Part1.sumData when ["11"] then 11`` () =
+            let result = Day1.Part1.sumData <| ["11"]
+            
+            Assert.Equal<int>(result, 11)
+            
+        [<Fact>]
+        let ``Part1.sumData when ["1a1"] then 11`` () =
+            let result = Day1.Part1.sumData <| ["1a1"]
+            
+            Assert.Equal<int>(result, 11)
+            
+        [<Fact>]
+        let ``Part1.sumData when ["1a1"; "no digits"] then 2`` () =
+            let result = Day1.Part1.sumData <| ["11"; "no digits"]
+            
+            Assert.Equal<int>(result, 11)       
+
+        [<Fact>]
+        let ``Part1.sumData when ["1a1"; "1"] then 22`` () =
+            let result = Day1.Part1.sumData <| ["11"; "1"]
+            
+            Assert.Equal<int>(result, 22)       
+
+        [<Fact>]
+        let ``Part1.sumData when ["1a1"; "no digits"; "aa2aa"] then 33`` () =
+            let result = Day1.Part1.sumData <| ["11"; "no digits"; "aa2aa"]
+            
+            Assert.Equal<int>(result, 33)       
+
+        [<Fact>]
+        let ``Part1.sumData when ["1abc2"; "pqr3stu8vwx"; "a1b2c3d4e5f"; "treb7uchet"] then 142`` () =
+            let result = Day1.Part1.sumData <| ["1abc2"; "pqr3stu8vwx"; "a1b2c3d4e5f"; "treb7uchet"]
+            
+            Assert.Equal<int>(result, 142)       
             
     [<Fact>]
     let ``aggregateFirstAndLastDigit when none return none`` () =
@@ -74,44 +118,3 @@
         
         Assert.Equal<byte * byte>(result.Value, (10uy, 2uy))
         
-    [<Fact>]
-    let ``Part1.sumData when ["1"] then 11`` () =
-        let result = Day1.Part1.sumData <| ["1"]
-        
-        Assert.Equal<int>(result, 11)
-        
-    [<Fact>]
-    let ``Part1.sumData when ["11"] then 11`` () =
-        let result = Day1.Part1.sumData <| ["11"]
-        
-        Assert.Equal<int>(result, 11)
-        
-    [<Fact>]
-    let ``Part1.sumData when ["1a1"] then 11`` () =
-        let result = Day1.Part1.sumData <| ["1a1"]
-        
-        Assert.Equal<int>(result, 11)
-        
-    [<Fact>]
-    let ``Part1.sumData when ["1a1"; "no digits"] then 2`` () =
-        let result = Day1.Part1.sumData <| ["11"; "no digits"]
-        
-        Assert.Equal<int>(result, 11)       
-
-    [<Fact>]
-    let ``Part1.sumData when ["1a1"; "1"] then 22`` () =
-        let result = Day1.Part1.sumData <| ["11"; "1"]
-        
-        Assert.Equal<int>(result, 22)       
-
-    [<Fact>]
-    let ``Part1.sumData when ["1a1"; "no digits"; "aa2aa"] then 33`` () =
-        let result = Day1.Part1.sumData <| ["11"; "no digits"; "aa2aa"]
-        
-        Assert.Equal<int>(result, 33)       
-
-    [<Fact>]
-    let ``Part1.sumData when ["1abc2"; "pqr3stu8vwx"; "a1b2c3d4e5f"; "treb7uchet"] then 142`` () =
-        let result = Day1.Part1.sumData <| ["1abc2"; "pqr3stu8vwx"; "a1b2c3d4e5f"; "treb7uchet"]
-        
-        Assert.Equal<int>(result, 142)       
