@@ -11,6 +11,15 @@
                 | 1 -> (a[0] * 10uy, a[0])
                 | _ -> (a[0] * 10uy, a[a.Length - 1]))
             
+    let sumData (rows: seq<string>) (funcGetDigits:string -> byte seq option) =
+        rows
+            |> Seq.map(funcGetDigits)
+            |> Seq.map(aggregateFirstAndLastDigit)
+            |> Seq.map(fun tuple ->
+                match tuple with
+                | Some x -> int (fst x) + int (snd x)
+                | None -> 0)
+            |> Seq.sum            
     module Part1 =
         let getDigits (input: string) =
             let result =
@@ -19,16 +28,9 @@
             match result with
             | s when Seq.isEmpty s -> None
             | s -> Some(s)
-    
+            
         let sumData (rows: seq<string>) =
-            rows
-                |> Seq.map(getDigits)
-                |> Seq.map(aggregateFirstAndLastDigit)
-                |> Seq.map(fun tuple ->
-                    match tuple with
-                    | Some x -> int (fst x) + int (snd x)
-                    | None -> 0)
-                |> Seq.sum
+            sumData <| rows <| getDigits
     
     let Execute =
         let lines = Common.getData ".\Data\input1.txt"
