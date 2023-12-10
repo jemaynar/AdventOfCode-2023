@@ -151,6 +151,8 @@
                 yield [| { Input = " "; Expected = None } |];
                 yield [| { Input = "non-digit"; Expected = None } |];
                 yield [| { Input = "one"; Expected = None } |];
+                yield [| { Input = "0"; Expected = None } |];
+                yield [| { Input = "a0"; Expected = None } |];
                 yield [| { Input = "1"; Expected = Some([| { Position = 0; Value = Some(1uy) } |] |> Array.toSeq) } |];
                 yield [| { Input = "2"; Expected = Some([| { Position = 0; Value = Some(2uy) } |] |> Array.toSeq) } |];
                 yield [| { Input = "3"; Expected = Some([| { Position = 0; Value = Some(3uy) } |] |> Array.toSeq) } |];
@@ -160,7 +162,6 @@
                 yield [| { Input = "7"; Expected = Some([| { Position = 0; Value = Some(7uy) } |] |> Array.toSeq) } |];
                 yield [| { Input = "8"; Expected = Some([| { Position = 0; Value = Some(8uy) } |] |> Array.toSeq) } |];
                 yield [| { Input = "9"; Expected = Some([| { Position = 0; Value = Some(9uy) } |] |> Array.toSeq) } |];
-                yield [| { Input = "0"; Expected = Some([| { Position = 0; Value = Some(0uy) } |] |> Array.toSeq) } |];
                 yield [| { Input = "a1"; Expected = Some([| { Position = 1; Value = Some(1uy) } |] |> Array.toSeq) } |];
                 yield [| { Input = "a2"; Expected = Some([| { Position = 1; Value = Some(2uy) } |] |> Array.toSeq) } |];
                 yield [| { Input = "a3"; Expected = Some([| { Position = 1; Value = Some(3uy) } |] |> Array.toSeq) } |];
@@ -170,7 +171,7 @@
                 yield [| { Input = "a7"; Expected = Some([| { Position = 1; Value = Some(7uy) } |] |> Array.toSeq) } |];
                 yield [| { Input = "a8"; Expected = Some([| { Position = 1; Value = Some(8uy) } |] |> Array.toSeq) } |];
                 yield [| { Input = "a9"; Expected = Some([| { Position = 1; Value = Some(9uy) } |] |> Array.toSeq) } |];
-                yield [| { Input = "a0"; Expected = Some([| { Position = 1; Value = Some(0uy) } |] |> Array.toSeq) } |];
+                yield [| { Input = "a3o4a"; Expected = Some([| { Position = 1; Value = Some(3uy) }; { Position = 3; Value = Some(4uy) }; |] |> Array.toSeq) } |];
             }
 
         [<Theory>]
