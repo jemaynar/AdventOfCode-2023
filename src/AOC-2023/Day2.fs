@@ -10,7 +10,7 @@
         Count : byte
     }
         
-    type Game = { GameNo: byte; Draws: Draw seq }
+    type Game = { GameNo: byte; Draws: Draw seq seq }
 
     let Execute (showData: bool) =
         let lines = Common.getData ".\Data\input2.txt"
