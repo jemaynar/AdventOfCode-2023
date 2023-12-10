@@ -3,50 +3,50 @@
     open Xunit
     
     [<Fact>]
-    let ``getDigits when empty returns none`` () =
-        let result = Day1.getDigits <| ""
+    let ``Part1.getDigits when empty returns none`` () =
+        let result = Day1.Part1.getDigits <| ""
         
         Assert.Equal<Option<IEnumerable<byte>>>(None, result)
         
     [<Fact>]
-    let ``getDigits when whitespace returns none`` () =
-        let result = Day1.getDigits <| " "
+    let ``Part1.getDigits when whitespace returns none`` () =
+        let result = Day1.Part1.getDigits <| " "
         
         Assert.Equal<Option<IEnumerable<byte>>>(None, result)
         
     [<Fact>]
-    let ``getDigits when non-digit returns none`` () =
-        let result = Day1.getDigits <| "a"
+    let ``Part1.getDigits when non-digit returns none`` () =
+        let result = Day1.Part1.getDigits <| "a"
         
         Assert.Equal<Option<IEnumerable<byte>>>(None, result)
         
     [<Fact>]
-    let ``getDigits when digit returns some`` () =
-        let result = Day1.getDigits <| "1"
+    let ``Part1.getDigits when digit returns some`` () =
+        let result = Day1.Part1.getDigits <| "1"
         
         Assert.True(result.IsSome)
         
     [<Fact>]
-    let ``getDigits when "1" returns some seq equivalent of [ 1uy ]`` () =
-        let result = Day1.getDigits <| "1"
+    let ``Part1.getDigits when "1" returns some seq equivalent of [ 1uy ]`` () =
+        let result = Day1.Part1.getDigits <| "1"
 
         Assert.Equivalent([| 1uy |] |> Seq.ofArray, result.Value)
         
     [<Fact>]
-    let ``getDigits when "12" returns some seq equivalent of [ 1uy; 2uy ]`` () =
-        let result = Day1.getDigits <| "12"
+    let ``Part1.getDigits when "12" returns some seq equivalent of [ 1uy; 2uy ]`` () =
+        let result = Day1.Part1.getDigits <| "12"
 
         Assert.Equivalent([| 1uy; 2uy |] |> Seq.ofArray, result.Value)
 
     [<Fact>]
-    let ``getDigits when "123" returns some seq equivalent of [ 1uy; 2uy; 3uy ]`` () =
-        let result = Day1.getDigits <| "123"
+    let ``Part1.getDigits when "123" returns some seq equivalent of [ 1uy; 2uy; 3uy ]`` () =
+        let result = Day1.Part1.getDigits <| "123"
 
         Assert.Equivalent([| 1uy; 2uy; 3uy |] |> Seq.ofArray, result.Value)
         
     [<Fact>]
-    let ``getDigits when "_1+2b3_" returns some seq equivalent of [ 1uy; 2uy; 3uy ]`` () =
-        let result = Day1.getDigits <| "123"
+    let ``Part1.getDigits when "_1+2b3_" returns some seq equivalent of [ 1uy; 2uy; 3uy ]`` () =
+        let result = Day1.Part1.getDigits <| "123"
 
         Assert.Equivalent([| 1uy; 2uy; 3uy |] |> Seq.ofArray, result.Value)
             

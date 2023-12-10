@@ -3,14 +3,6 @@
     open System
     open Microsoft.FSharp.Core
 
-    let getDigits (input: string) =
-        let result =
-            input |> Seq.filter(Char.IsDigit)
-            |> Seq.map(fun x -> Byte.Parse(x.ToString()))
-        match result with
-        | s when Seq.isEmpty s -> None
-        | s -> Some(s)
-        
     let aggregateFirstAndLastDigit (digitSequence: byte seq option) =
         digitSequence
             |> Option.map(Seq.toArray)
@@ -20,6 +12,14 @@
                 | _ -> (a[0] * 10uy, a[a.Length - 1]))
             
     module Part1 =
+        let getDigits (input: string) =
+            let result =
+                input |> Seq.filter(Char.IsDigit)
+                |> Seq.map(fun x -> Byte.Parse(x.ToString()))
+            match result with
+            | s when Seq.isEmpty s -> None
+            | s -> Some(s)
+    
         let sumData (rows: seq<string>) =
             rows
                 |> Seq.map(getDigits)
