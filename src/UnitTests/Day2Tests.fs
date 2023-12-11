@@ -8,11 +8,6 @@
         Expected: Day2.Draw option
     }
 
-    type ParseDrawsTestCase = {
-        Input: string
-        ExpectedSeq: Day2.Draw seq
-    }
-
     let parseDrawTestCases =
         seq {
             yield [| { Input = "1 blue"; Expected = Some( { Day2.DrawColor = Day2.Color.Blue; Day2.Count = 1uy } ) } |]
@@ -88,6 +83,11 @@
         let expected = testCase.Expected
         Assert.Equal<Day2.Draw option>(expected, result)
 
+    type ParseDrawsTestCase = {
+        Input: string
+        ExpectedSeq: Day2.Draw seq
+    }
+
     let parseDrawsTestCases =
         seq {
             yield [| {
@@ -114,3 +114,42 @@
 
         let expected = testCase.ExpectedSeq
         Assert.Equivalent(expected, result)
+
+    type parseGameTestCase = {
+        Input: string
+        ExpectedGame: Day2.Game
+    }
+
+    let gameTestCases =
+        seq {
+            yield [| {
+                 Input = "Game 1: 4 blue, 4 red; 1 red, 2 green, 6 blue; 4 green";
+                 ExpectedGame = {
+                     Day2.GameId = 1uy;
+                     Day2.Draws = seq {
+                         yield seq {
+                            yield { DrawColor = Day2.Color.Blue; Day2.Count = 4uy; };
+                            yield { DrawColor = Day2.Color.Red; Day2.Count = 4uy; };
+                         }
+                         yield seq {
+                            yield { DrawColor = Day2.Color.Red; Day2.Count = 1uy; };
+                            yield { DrawColor = Day2.Color.Green; Day2.Count = 2uy; };
+                            yield { DrawColor = Day2.Color.Blue; Day2.Count = 6uy; };
+                         }
+                         yield seq {
+                            yield { DrawColor = Day2.Color.Green; Day2.Count = 4uy; };
+                         }
+                     }
+                 }
+             } |]
+        }
+
+    [<Theory>]
+    [<MemberData(nameof(gameTestCases))>]
+    let ``parseGame`` (testCase: parseGameTestCase) =
+        let result = Day2.parseGame <| testCase.Input
+
+        let expected = testCase.ExpectedGame
+        Assert.Multiple(fun () ->
+            Assert.Equal(expected.GameId, result.GameId)
+            Assert.Equivalent(expected.Draws, result.Draws))

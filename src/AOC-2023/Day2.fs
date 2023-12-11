@@ -27,13 +27,14 @@
     let parseDraws (input: string) =
         input.Split(",") |> Seq.map(fun x -> x.Trim() |> parseDraw) |> Seq.choose id
 
-    (*
-    let parseGame (input: string): Game =
-        let gameAndDraws = input.Split(":")
-        let handFulls = gameAndDraws[1].Split(";")
-        let game = { GameId = 1uy Draws = seq { yield { DrawColor = Color.Green; Count = 0 } } }
-        game
-    *)
+    let parseDrawIndex (input: string) : byte =
+        Byte.Parse((input.Split(":")[0]).Split(" ")[1])
+
+    let parseGame : string -> Game =
+        fun input -> {
+            GameId = parseDrawIndex(input)
+            Draws = input.Split(":")[1] |> fun x -> x.Split(";") |> Seq.map(parseDraws)
+        }
 
     let Execute (showData: bool) =
         let lines = Common.getData ".\Data\input2.txt"
