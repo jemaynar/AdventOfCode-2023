@@ -21,7 +21,7 @@
                             | "green" -> Color.Green
                             | "red" -> Color.Red
                             | "blue" -> Color.Blue 
-                            | s -> failwith "todo"} )
+                            | _ -> failwith "unknown color"} )
             |> Seq.tryHead
 
     (*
