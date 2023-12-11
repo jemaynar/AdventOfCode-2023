@@ -15,15 +15,15 @@
 
     let parseDraw (input: string) =
         Regex.Matches(input, "^([1-9]|[1][0-9]|20) (red|green|blue)$", RegexOptions.Compiled)
-           |> Seq.map(fun x -> {
+            |> Seq.map(fun x -> {
                 Count = Byte.Parse(x.Groups[1].Value.Trim())
                 DrawColor = match x.Groups[2].Value.Trim() with
                             | "green" -> Color.Green
                             | "red" -> Color.Red
                             | "blue" -> Color.Blue 
-                            | s -> failwith "todo"})
-        
-        
+                            | s -> failwith "todo"} )
+            |> Seq.tryHead
+
     (*
     let parseGame (input: string): Game =
         let gameAndDraws = input.Split(":")
