@@ -141,7 +141,7 @@
                          }
                      }
                  }
-             } |]
+            } |]
             yield [| {
                  Input = "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue";
                  ExpectedGame = {
@@ -162,7 +162,69 @@
                          }
                      }
                  }
-             } |]
+            } |]
+            yield [| {
+                 Input = "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red";
+                 ExpectedGame = {
+                     Day2.GameId = 3uy;
+                     Day2.Draws = seq {
+                         yield seq {
+                            yield { DrawColor = Day2.Color.Green; Day2.Count = 8uy; };
+                            yield { DrawColor = Day2.Color.Blue; Day2.Count = 6uy; };
+                            yield { DrawColor = Day2.Color.Red; Day2.Count = 20uy; };
+                         }
+                         yield seq {
+                            yield { DrawColor = Day2.Color.Blue; Day2.Count = 5uy; };
+                            yield { DrawColor = Day2.Color.Red; Day2.Count = 4uy; };
+                            yield { DrawColor = Day2.Color.Green; Day2.Count = 13uy; };
+                         }
+                         yield seq {
+                            yield { DrawColor = Day2.Color.Green; Day2.Count = 5uy; };
+                            yield { DrawColor = Day2.Color.Red; Day2.Count = 1uy; };
+                         }
+                     }
+                 }
+            } |]
+            yield [| {
+                 Input = "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red";
+                 ExpectedGame = {
+                     Day2.GameId = 4uy;
+                     Day2.Draws = seq {
+                         yield seq {
+                            yield { DrawColor = Day2.Color.Green; Day2.Count = 1uy; };
+                            yield { DrawColor = Day2.Color.Red; Day2.Count = 3uy; };
+                            yield { DrawColor = Day2.Color.Blue; Day2.Count = 6uy; };
+                         }
+                         yield seq {
+                            yield { DrawColor = Day2.Color.Green; Day2.Count = 3uy; };
+                            yield { DrawColor = Day2.Color.Red; Day2.Count = 6uy; };
+                         }
+                         yield seq {
+                            yield { DrawColor = Day2.Color.Green; Day2.Count = 3uy; };
+                            yield { DrawColor = Day2.Color.Blue; Day2.Count = 15uy; };
+                            yield { DrawColor = Day2.Color.Red; Day2.Count = 14uy; };
+                         }
+                     }
+                 }
+            } |]
+            yield [| {
+                 Input = "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green";
+                 ExpectedGame = {
+                     Day2.GameId = 5uy;
+                     Day2.Draws = seq {
+                         yield seq {
+                            yield { DrawColor = Day2.Color.Red; Day2.Count = 6uy; };
+                            yield { DrawColor = Day2.Color.Blue; Day2.Count = 1uy; };
+                            yield { DrawColor = Day2.Color.Green; Day2.Count = 3uy; };
+                         }
+                         yield seq {
+                            yield { DrawColor = Day2.Color.Blue; Day2.Count = 2uy; };
+                            yield { DrawColor = Day2.Color.Red; Day2.Count = 1uy; };
+                            yield { DrawColor = Day2.Color.Green; Day2.Count = 2uy; };
+                         }
+                     }
+                 }
+            } |]
         }
 
     [<Theory>]
