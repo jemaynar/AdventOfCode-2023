@@ -24,6 +24,9 @@
                             | _ -> failwith "unknown color"} )
             |> Seq.tryHead
 
+    let parseDraws (input: string) =
+        input.Split(",") |> Seq.map(fun x -> x.Trim() |> parseDraw) |> Seq.choose id
+
     (*
     let parseGame (input: string): Game =
         let gameAndDraws = input.Split(":")

@@ -8,6 +8,11 @@
         Expected: Day2.Draw option
     }
 
+    type ParseDrawsTestCase = {
+        Input: string
+        ExpectedSeq: Day2.Draw seq
+    }
+
     let parseDrawTestCases =
         seq {
             yield [| { Input = "1 blue"; Expected = Some( { Day2.DrawColor = Day2.Color.Blue; Day2.Count = 1uy } ) } |]
@@ -74,7 +79,7 @@
             yield [| { Input = "20 green"; Expected = Some( { Day2.DrawColor = Day2.Color.Green; Day2.Count = 20uy; } ) } |]
             yield [| { Input = "21 green"; Expected = None } |]
         }
-    
+
     [<Theory>]
     [<MemberData(nameof(parseDrawTestCases))>]
     let ``parseDraw`` (testCase: ParseDrawTestCase) =
@@ -82,3 +87,30 @@
 
         let expected = testCase.Expected
         Assert.Equal<Day2.Draw option>(expected, result)
+
+    let parseDrawsTestCases =
+        seq {
+            yield [| {
+                Input = "3 blue, 4 red"
+                ExpectedSeq = [| { Day2.DrawColor = Day2.Color.Blue; Day2.Count = 3uy };
+                                 { Day2.DrawColor = Day2.Color.Red; Day2.Count = 4uy }; |] |> Array.toSeq
+            } |]
+            yield [| {
+                Input = "1 red, 2 green, 6 blue"
+                ExpectedSeq = [| { Day2.DrawColor = Day2.Color.Red; Day2.Count = 1uy };
+                                 { Day2.DrawColor = Day2.Color.Green; Day2.Count = 2uy };
+                                 { Day2.DrawColor = Day2.Color.Blue; Day2.Count = 6uy }; |] |> Array.toSeq
+            } |]
+            yield [| {
+                Input = "2 green"
+                ExpectedSeq = [| { Day2.DrawColor = Day2.Color.Green; Day2.Count = 2uy }; |] |> Array.toSeq
+            } |]
+        }
+        
+    [<Theory>]
+    [<MemberData(nameof(parseDrawsTestCases))>]
+    let ``parseDraws`` (testCase: ParseDrawsTestCase) =
+        let result = Day2.parseDraws <| testCase.Input
+
+        let expected = testCase.ExpectedSeq
+        Assert.Equivalent(expected, result)
