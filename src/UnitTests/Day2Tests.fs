@@ -142,6 +142,27 @@
                      }
                  }
              } |]
+            yield [| {
+                 Input = "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue";
+                 ExpectedGame = {
+                     Day2.GameId = 2uy;
+                     Day2.Draws = seq {
+                         yield seq {
+                            yield { DrawColor = Day2.Color.Blue; Day2.Count = 1uy; };
+                            yield { DrawColor = Day2.Color.Green; Day2.Count = 2uy; };
+                         }
+                         yield seq {
+                            yield { DrawColor = Day2.Color.Green; Day2.Count = 3uy; };
+                            yield { DrawColor = Day2.Color.Blue; Day2.Count = 4uy; };
+                            yield { DrawColor = Day2.Color.Red; Day2.Count = 1uy; };
+                         }
+                         yield seq {
+                            yield { DrawColor = Day2.Color.Green; Day2.Count = 1uy; };
+                            yield { DrawColor = Day2.Color.Blue; Day2.Count = 1uy; };
+                         }
+                     }
+                 }
+             } |]
         }
 
     [<Theory>]
