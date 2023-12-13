@@ -236,3 +236,58 @@
         Assert.Multiple(fun () ->
             Assert.Equal(expected.GameId, result.GameId)
             Assert.Equivalent(expected.Draws, result.Draws))
+
+    [<Fact>]
+    let ``filterGames when bag contains only 12 red, 13 green, and 14 blue cubes`` () =
+        let filterCriterion = seq {
+            yield { Day2.DrawColor = Day2.Color.Red; Day2.Count = 12uy };
+            yield { Day2.DrawColor = Day2.Color.Green; Day2.Count = 13uy };
+            yield { Day2.DrawColor = Day2.Color.Blue; Day2.Count = 14uy };
+        }
+        
+        let fiveGames = seq {
+            yield {
+                Day2.GameId = 1uy;
+                Day2.Draws = seq {
+                    yield seq { yield { Day2.DrawColor = Day2.Color.Blue; Day2.Count = 3uy; }; yield { Day2.DrawColor = Day2.Color.Red; Day2.Count = 4uy; }; };
+                    yield seq { yield { Day2.DrawColor = Day2.Color.Red; Day2.Count = 1uy; }; yield { Day2.DrawColor = Day2.Color.Green; Day2.Count = 6uy; }; yield { Day2.DrawColor = Day2.Color.Blue; Day2.Count = 6uy; }; };
+                    yield seq { yield { Day2.DrawColor = Day2.Color.Green; Count = 2uy; }; };
+                }
+            }
+            yield {
+                Day2.GameId = 2uy;
+                Day2.Draws = seq {
+                    yield seq { yield { Day2.DrawColor = Day2.Color.Blue; Day2.Count = 1uy; }; yield { Day2.DrawColor = Day2.Color.Green; Day2.Count = 2uy; }; };
+                    yield seq { yield { Day2.DrawColor = Day2.Color.Green; Day2.Count = 3uy; }; yield { Day2.DrawColor = Day2.Color.Blue; Day2.Count = 4uy; }; yield { Day2.DrawColor = Day2.Color.Red; Day2.Count = 1uy }; };
+                    yield seq { yield { Day2.DrawColor = Day2.Color.Blue; Day2.Count = 1uy; }; }
+                }
+            }
+            yield {
+                Day2.GameId = 3uy;
+                Day2.Draws = seq {
+                    yield seq { yield { Day2.DrawColor = Day2.Color.Green; Day2.Count = 8uy; }; yield { Day2.DrawColor = Day2.Color.Blue; Day2.Count = 6uy; }; yield { Day2.DrawColor = Day2.Color.Red; Day2.Count = 20uy }; };
+                    yield seq { yield { Day2.DrawColor = Day2.Color.Blue; Day2.Count = 5uy; }; yield { Day2.DrawColor = Day2.Color.Red; Day2.Count = 4uy; }; yield { Day2.DrawColor = Day2.Color.Green; Day2.Count = 13uy }; };
+                    yield seq { yield { Day2.DrawColor = Day2.Color.Green; Day2.Count = 5uy; }; yield { Day2.DrawColor = Day2.Color.Red; Day2.Count = 4uy; }; };
+                }
+            }
+            yield {
+                Day2.GameId = 4uy;
+                Day2.Draws = seq {
+                    yield seq { yield { Day2.DrawColor = Day2.Color.Green; Day2.Count = 1uy; }; yield { Day2.DrawColor = Day2.Color.Red; Day2.Count = 3uy; }; yield { Day2.DrawColor = Day2.Color.Blue; Day2.Count = 6uy; }; };
+                    yield seq { yield { Day2.DrawColor = Day2.Color.Green; Day2.Count = 3uy; }; yield { Day2.DrawColor = Day2.Color.Red; Day2.Count = 6uy; }; };
+                    yield seq { yield { Day2.DrawColor = Day2.Color.Green; Day2.Count = 3uy; }; yield { Day2.DrawColor = Day2.Color.Blue; Day2.Count = 15uy; }; yield { Day2.DrawColor = Day2.Color.Red; Day2.Count = 14uy }; };
+                }
+            }
+            yield {
+                Day2.GameId = 5uy;
+                Day2.Draws = seq {
+                    yield seq { yield { Day2.DrawColor = Day2.Color.Red; Day2.Count = 6uy; }; yield { Day2.DrawColor = Day2.Color.Blue; Day2.Count = 1uy; }; yield { Day2.DrawColor = Day2.Color.Green; Day2.Count = 3uy; }; };
+                    yield seq { yield { Day2.DrawColor = Day2.Color.Blue; Day2.Count = 2uy; }; yield { Day2.DrawColor = Day2.Color.Red; Day2.Count = 1uy; }; yield { Day2.DrawColor = Day2.Color.Green; Day2.Count = 2uy; }; };
+                }
+            }
+        }
+
+        let result = Day2.filterGames <| fiveGames <| filterCriterion |> Seq.map(fun g -> g.GameId)
+
+        let expectedGameIds = seq { yield 1uy; yield 2uy; yield 5uy; }
+        Assert.Equivalent(expectedGameIds, result)

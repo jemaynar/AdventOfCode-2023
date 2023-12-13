@@ -36,6 +36,9 @@
             Draws = input.Split(":")[1] |> fun x -> x.Split(";") |> Seq.map(parseDraws)
         }
 
+    let filterGames : Game seq -> Draw seq -> Game seq =
+        fun games filter -> Seq.empty
+
     let Execute (showData: bool) =
         let lines = Common.getData ".\Data\input2.txt"
 
